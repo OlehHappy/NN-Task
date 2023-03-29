@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LeadChangeOwnerValidator</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+    ISCHANGED(OwnerId),
+				ISBLANK(Country),
+				ISBLANK(TEXT(LeadSource)),
+				ISBLANK(NumberOfEmployees)
+)</errorConditionFormula>
+    <errorMessage>In case of change Owner make sure that Country, Lead Source and Number Of Employees are filled in.</errorMessage>
+</ValidationRule>
