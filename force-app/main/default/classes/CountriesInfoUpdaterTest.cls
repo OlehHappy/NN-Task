@@ -1,5 +1,5 @@
 @isTest
-private class CountryInfoRetrieverTest {
+private class CountriesInfoUpdaterTest {
 
     @isTest
     static void testRetrieveCountryInfo() {
@@ -13,7 +13,7 @@ private class CountryInfoRetrieverTest {
         Test.stopTest();
 
         // Assert the result
-        System.assert(!actualCountries.isEmpty(), 'We expect some results frm th mock.');
+        System.assert(!actualCountries.isEmpty(), 'We expect some results from the mock.');
     }
 
     // todo: check coverage
@@ -30,6 +30,34 @@ private class CountryInfoRetrieverTest {
         
         // assert that no countries were retrieved
         System.assertEquals(0, countries.size());
+    }
+
+    @isTest
+    static void testUpdateCountriesFromAPI() {
+        // Create test data
+        Country__c existingCountry = new Country__c(Name = 'United States');
+        insert existingCountry;
+
+        // Set the mock
+        HttpMock mock = new HttpMock(200, RESPONSE_MOCK);
+        Test.setMock(HttpCalloutMock.class, mock);
+
+        Test.startTest();        
+        // Call the method being tested
+        CountriesInfoUpdater.updateCountriesFromAPI();
+        Test.stopTest();
+
+        // Verify the result
+        Country__c updatedCountry = [SELECT Id, Name, 
+                                            CapitalCity__c, 
+                                            ISO_Code_2__c, 
+                                            ISO_Code_3__c, 
+                                            Region__c, 
+                                            RegionalBlocs__c, 
+                                            Subregion__c 
+                                    FROM Country__c WHERE Name = :existingCountry.Name];
+
+        System.assertEquals('US', updatedCountry.ISO_Code_2__c);
     }
 
 
