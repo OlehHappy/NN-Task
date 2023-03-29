@@ -6,7 +6,17 @@
     ISCHANGED(OwnerId),
 				ISBLANK(Country),
 				ISBLANK(TEXT(LeadSource)),
-				ISBLANK(NumberOfEmployees)
+				ISBLANK(NumberOfEmployees),
+				
+				OR(
+        ISBLANK(Country),
+        $Profile.Name = &apos;System Administrator&apos;
+    ),
+				
+				OR(
+        ISBLANK(NumberOfEmployees),
+        $Profile.Name = &apos;Contract Manager&apos;
+    )
 )</errorConditionFormula>
-    <errorMessage>In case of change Owner make sure that Country, Lead Source and Number Of Employees are filled in.</errorMessage>
+    <errorMessage>In case of change Owner make sure that necessary are filled in.</errorMessage>
 </ValidationRule>
